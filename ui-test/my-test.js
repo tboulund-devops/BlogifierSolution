@@ -1,8 +1,8 @@
 import { Selector } from 'testcafe';
 
 fixture `Getting Started`
-    .page `http://localhost:9876/`;
+    .page `http://www.google.dk`;
 
 test("My first test", async t => {
-    // Test code
+    await t.takeScreenshot();
 })

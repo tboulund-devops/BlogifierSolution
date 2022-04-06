@@ -26,7 +26,7 @@ pipeline {
                 }
                 stage("Chromium") {
                     steps {
-                        sh "docker run --rm -v /root/test:/tests -v /root/test/screenshots:/screenshots -it testcafe/testcafe chromium /tests/*.js"
+                        sh "docker run --rm -v ${PWD}/ui-test:/tests -v ${PWD}/screenshots:/screenshots -it testcafe/testcafe chromium /tests/*.js"
                     }
                 }
             }
