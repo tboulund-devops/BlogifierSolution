@@ -2,11 +2,13 @@ pipeline {
     agent any
     stages {
         stage("Build UI") {
-            when {
+            /*when {
                 changeset "src/**"
-            }
+            }*/
             steps {
-                sh "dotnet build --output outputs"
+                dir("src/Blogifier") {
+                    sh "dotnet publish Blogifier.csproj -o ../../outputs"
+                }
             }
         }
         stage("Test environment") {
