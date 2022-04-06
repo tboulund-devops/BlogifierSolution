@@ -2,6 +2,9 @@ pipeline {
     agent any
     stages {
         stage("Build UI") {
+            when {
+                changeset "src/**"
+            }
             steps {
                 sh "dotnet build --output outputs"
             }
@@ -13,7 +16,7 @@ pipeline {
         }
         stage("Prepare UI tests") {
             steps {
-                sh "mkdir screenshots"
+                sh "mkdir -p screenshots"
                 sh "chmod a=rwx screenshots"
             }
         }
