@@ -13,6 +13,7 @@ pipeline {
         }
         stage("Test environment") {
             steps {
+                sh "docker-compose build"
                 sh "docker-compose up -d"
             }
         }
