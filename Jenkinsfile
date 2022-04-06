@@ -33,6 +33,11 @@ pipeline {
                     }
                 }
             }
+            post {
+                always {
+                    archiveArtifacts artifacts: "screenshots/**"
+                }
+            }
         }
     }
 }
