@@ -24,12 +24,12 @@ pipeline {
             parallel {
                 stage("Firefox") {
                     steps {
-                        sh "docker run --rm -v ${PWD}/ui-test:/tests -v ${PWD}/screenshots:/screenshots testcafe/testcafe firefox /tests/*.js"
+                        sh "docker run --rm -v ${WORKSPACE}/ui-test:/tests -v ${WORKSPACE}/screenshots:/screenshots testcafe/testcafe firefox /tests/*.js"
                     }
                 }
                 stage("Chromium") {
                     steps {
-                        sh "docker run --rm -v ${PWD}/ui-test:/tests -v ${PWD}/screenshots:/screenshots testcafe/testcafe chromium /tests/*.js"
+                        sh "docker run --rm -v ${WORKSPACE}/ui-test:/tests -v ${WORKSPACE}/screenshots:/screenshots testcafe/testcafe chromium /tests/*.js"
                     }
                 }
             }
