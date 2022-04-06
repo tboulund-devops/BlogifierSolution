@@ -2,9 +2,9 @@ pipeline {
     agent any
     stages {
         stage("Build UI") {
-            /*when {
+            when {
                 changeset "src/**"
-            }*/
+            }
             steps {
                 dir("src/Blogifier") {
                     sh "dotnet publish Blogifier.csproj -o ../../outputs"
@@ -12,6 +12,9 @@ pipeline {
             }
         }
         stage("Test environment") {
+            when {
+                changeset "src/**"
+            }
             steps {
                 sh "docker-compose build"
                 sh "docker-compose up -d"
