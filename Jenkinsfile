@@ -5,28 +5,24 @@ pipeline {
     }
     stages {
         stage("Build UI") {
-            when {
-                changeset "src/**"
-            }
             steps {
                 dir("src/Blogifier") {
                     sh "dotnet publish Blogifier.csproj -o ../../outputs"
                 }
             }
         }
-        stage("Test environment") {
+        stage("Reset test environment") {
             steps {
                 sh "docker-compose down"
-                sh "docker-compose build"
-                sh "docker-compose up -d"
+                sh "docker-compose up -d --build"
             }
         }
-        stage("Prepare UI tests") {
+        /*stage("Prepare UI tests") {
             steps {
                 sh "mkdir -p screenshots"
                 sh "chmod a=rwx screenshots"
             }
-        }
+        }*/
         stage("Execute UI tests") {
             parallel {
                 stage("Firefox") {
