@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage("Cleanup") {
             steps {
-                sh "sudo rm -rf screenshots"
+                sh "rm -rf screenshots"
             }
         }
         stage("Build UI") {
