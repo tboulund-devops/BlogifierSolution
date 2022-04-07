@@ -1,11 +1,9 @@
 pipeline {
     agent any
+    environment {
+        SCREENSHOT_PATH = sh(script: "mktemp -d", returnStdOut: true)
+    }
     stages {
-        stage("Cleanup") {
-            steps {
-                sh "rm -rf screenshots"
-            }
-        }
         stage("Build UI") {
             when {
                 changeset "src/**"
@@ -33,18 +31,18 @@ pipeline {
             parallel {
                 stage("Firefox") {
                     steps {
-                        sh "docker run --rm -v ${WORKSPACE}/ui-test:/tests -v ${WORKSPACE}/screenshots:/screenshots testcafe/testcafe firefox /tests/*.js"
+                        sh "docker run --rm -v ${WORKSPACE}/ui-test:/tests -v ${SCREENSHOT_PATH}:/screenshots testcafe/testcafe firefox /tests/*.js"
                     }
                 }
                 stage("Chromium") {
                     steps {
-                        sh "docker run --rm -v ${WORKSPACE}/ui-test:/tests -v ${WORKSPACE}/screenshots:/screenshots testcafe/testcafe chromium /tests/*.js"
+                        sh "docker run --rm -v ${WORKSPACE}/ui-test:/tests -v ${SCREENSHOT_PATH}:/screenshots testcafe/testcafe chromium /tests/*.js"
                     }
                 }
             }
             post {
                 always {
-                    archiveArtifacts artifacts: "screenshots/**"
+                    archiveArtifacts artifacts: "${SCREENSHOT_PATH}/**"
                 }
             }
         }
