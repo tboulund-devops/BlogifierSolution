@@ -2,7 +2,7 @@ import { ClientFunction, Selector } from 'testcafe';
 
 fixture("User accounts")
 
-test.page("http://devops.setgo.dk:9876/admin/register")("Register admin account", async t => {
+test.page(process.env.BASE_URL + "/admin/register")("Register admin account", async t => {
     const getPathname = ClientFunction(() => document.location.pathname);
     await t
         .takeScreenshot()
@@ -20,7 +20,7 @@ test.page("http://devops.setgo.dk:9876/admin/register")("Register admin account"
         .takeScreenshot();
 })
 
-test.page("http://devops.setgo.dk:9876/admin/login")("Login to admin account", async t => {
+test.page(process.env.BASE_URL + "/admin/login")("Login to admin account", async t => {
     await t
         .typeText("#loginEmail", "wrong@wrong.dk")
         .typeText("#loginPassword", "wrong")

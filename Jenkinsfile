@@ -18,19 +18,13 @@ pipeline {
                 sh "chmod a=rwx ${SCREENSHOT_PATH}"
             }
         }
-        /*stage("Prepare UI tests") {
-            steps {
-                sh "mkdir -p screenshots"
-                sh "chmod a=rwx screenshots"
-            }
-        }*/
         stage("Execute UI tests") {
             parallel {
-                stage("Firefox") {
+                /*stage("Firefox") {
                     steps {
                         sh "docker run --rm -v ${WORKSPACE}/ui-test:/tests -v ${SCREENSHOT_PATH}:/screenshots testcafe/testcafe firefox /tests/*.js"
                     }
-                }
+                }*/
                 stage("Chromium") {
                     steps {
                         sh "docker run --rm -v ${WORKSPACE}/ui-test:/tests -v ${SCREENSHOT_PATH}:/screenshots testcafe/testcafe chromium /tests/*.js"
