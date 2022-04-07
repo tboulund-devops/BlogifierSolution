@@ -15,6 +15,7 @@ pipeline {
             steps {
                 sh "docker-compose down"
                 sh "docker-compose up -d --build"
+                sh "chmod a=rwx ${SCREENSHOT_PATH}"
             }
         }
         /*stage("Prepare UI tests") {
