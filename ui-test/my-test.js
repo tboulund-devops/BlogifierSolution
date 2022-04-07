@@ -1,6 +1,18 @@
-import { ClientFunction, Selector } from 'testcafe';
+import { Selector } from 'testcafe';
 
 fixture("User accounts")
+
+/*test.page("https://weeknumber.net")("Test weeks", async t => {
+    await t
+        .typeText("#q", "1/1 2018")
+        .click("#querybox > form > button")
+        .expect(Selector("#ugenr").innerText).eql("week 1")
+        .selectText(Selector("#q"))
+        .pressKey("delete")
+        .typeText("#q", "1/1 2017")
+        .click("#querybox > form > button")
+        .expect(Selector("#ugenr").innerText).eql("week 52");
+})*/
 
 test.page(process.env.BASE_URL + "/admin/register")("Register admin account", async t => {
     await t
