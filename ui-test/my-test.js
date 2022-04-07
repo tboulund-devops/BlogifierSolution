@@ -9,7 +9,7 @@ test("My first test", async t => {
     await t
         .expect(getPathname()).eql("/admin/register")
         .takeScreenshot()
-        .click("#app > div > form > button")
+        .click("#create-admin-account")
         .expect(await Selector("#app > div > form > div:nth-child(1) > div").visible).ok()
         .expect(await Selector("#app > div > form > div:nth-child(2) > div").visible).ok()
         .expect(await Selector("#app > div > form > div:nth-child(3) > div").visible).ok()
