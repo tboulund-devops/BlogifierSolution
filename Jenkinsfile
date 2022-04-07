@@ -1,6 +1,11 @@
 pipeline {
     agent any
     stages {
+        stage("Cleanup") {
+            steps {
+                sh "rm -rf screenshots"
+            }
+        }
         stage("Build UI") {
             when {
                 changeset "src/**"
@@ -12,10 +17,8 @@ pipeline {
             }
         }
         stage("Test environment") {
-            when {
-                changeset "src/**"
-            }
             steps {
+                sh "docker-compose down"
                 sh "docker-compose build"
                 sh "docker-compose up -d"
             }
