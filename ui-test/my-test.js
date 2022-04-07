@@ -15,7 +15,7 @@ test.page(process.env.BASE_URL + "/admin/register")("Register admin account", as
         .typeText("#registerPassword", "test1234")
         .typeText("#registerConfirmPassword", "test1234")
         .click("#create-admin-account")
-        .expect(Selector("title").innerText).contains("Login")
+        .expect(Selector("#login-button").visible).ok()
         .takeScreenshot();
 })
 
