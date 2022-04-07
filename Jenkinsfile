@@ -1,8 +1,8 @@
 pipeline {
     agent any
     environment {
-        TEMP_PATH = sh(script: "mktemp -d", returnStdout: true).trim()
-        SCREENSHOT_PATH = "${WORKSPACE}/${TEMP_PATH}"
+        TIMESTAMP = sh(script: "date +%s", returnStdout: true).trim()
+        SCREENSHOT_PATH = "screenshots/${TIMESTAMP}"
     }
     stages {
         stage("Build UI") {
