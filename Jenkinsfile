@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        SCREENSHOT_PATH = sh(script: "mktemp -d", returnStdout: true)
+        SCREENSHOT_PATH = sh(script: "mktemp -d", returnStdout: true).trim()
     }
     stages {
         stage("Build UI") {
