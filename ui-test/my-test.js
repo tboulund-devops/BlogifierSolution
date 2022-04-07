@@ -3,7 +3,6 @@ import { ClientFunction, Selector } from 'testcafe';
 fixture("User accounts")
 
 test.page(process.env.BASE_URL + "/admin/register")("Register admin account", async t => {
-    const getPathname = ClientFunction(() => document.location.pathname);
     await t
         .takeScreenshot()
         .click("#create-admin-account")
@@ -16,7 +15,7 @@ test.page(process.env.BASE_URL + "/admin/register")("Register admin account", as
         .typeText("#registerPassword", "test1234")
         .typeText("#registerConfirmPassword", "test1234")
         .click("#create-admin-account")
-        .expect(getPathname()).contains("/admin/login/")
+        .expect(Selector("title").innerText).contains("Login")
         .takeScreenshot();
 })
 
