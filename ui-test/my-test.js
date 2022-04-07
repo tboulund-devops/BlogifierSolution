@@ -4,8 +4,10 @@ fixture `Getting Started`
     .page `http://devops.setgo.dk:9876/`;
 
 test("My first test", async t => {
+    const getPathname = ClientFunction(() => document.location.pathname);
+
     await t
-        .expect(window.location.pathname).eql("/admin/register")
+        .expect(getPathname()).eql("/admin/register")
         .takeScreenshot()
         .click("#app > div > form > button")
         .expect(await Selector("#app > div > form > div:nth-child(1) > div").visible).ok()
