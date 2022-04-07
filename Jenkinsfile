@@ -16,7 +16,7 @@ pipeline {
             steps {
                 sh "docker-compose down"
                 sh "docker-compose up -d --build"
-                sh "mkdir ${SCREENSHOT_PATH}"
+                sh "mkdir -p ${SCREENSHOT_PATH}"
                 sh "chmod a=rwx ${SCREENSHOT_PATH}"
             }
         }
