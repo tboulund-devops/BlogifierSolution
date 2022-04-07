@@ -1,8 +1,8 @@
 pipeline {
     agent any
     environment {
-        SCREENSHOT_PATH = sh(script: "mktemp -d", returnStdout: true).trim()
-        SCREENSHOT_PATH = "${WORKSPACE}/${SCREENSHOT_PATH}"
+        TEMP_PATH = sh(script: "mktemp -d", returnStdout: true).trim()
+        SCREENSHOT_PATH = "${WORKSPACE}/${TEMP_PATH}"
     }
     stages {
         stage("Build UI") {
@@ -16,6 +16,7 @@ pipeline {
             steps {
                 sh "docker-compose down"
                 sh "docker-compose up -d --build"
+                sh "mkdir ${SCREENSHOT_PATH}"
                 sh "chmod a=rwx ${SCREENSHOT_PATH}"
             }
         }
