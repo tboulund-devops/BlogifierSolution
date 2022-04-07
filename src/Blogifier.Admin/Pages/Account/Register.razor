@@ -22,22 +22,22 @@
         <div class="form-floating form-item">
             <input @bind="model.Email" id="registerEmail" class="form-control" type="email" placeholder="@_localizer["email"]" autofocus>
             <label for="registerEmail">@_localizer["email"]</label>
-            <ValidationMessage For="@(() => model.Email)"></ValidationMessage>
+            <ValidationMessage id="email-validation" For="@(() => model.Email)"></ValidationMessage>
         </div>
         <div class="form-floating form-item">
             <input @bind="model.Name" id="registerName" class="form-control" type="text" placeholder="@_localizer["name"]">
             <label for="registerName">@_localizer["name"]</label>
-            <ValidationMessage For="@(() => model.Name)"></ValidationMessage>
+            <ValidationMessage id="name-validation" For="@(() => model.Name)"></ValidationMessage>
         </div>
         <div class="form-floating form-item">
             <input @bind="model.Password" id="registerPassword" class="form-control" type="password" placeholder="@_localizer["password"]">
             <label for="registerPassword">@_localizer["password"]</label>
-            <ValidationMessage For="@(() => model.Password)"></ValidationMessage>
+            <ValidationMessage id="password-validation" For="@(() => model.Password)"></ValidationMessage>
         </div>
         <div class="form-floating form-item">
             <input @bind="model.PasswordConfirm" id="registerConfirmPassword" class="form-control" type="password" placeholder="@_localizer["confirm-password"]">
             <label for="registerConfirmPassword">@_localizer["confirm-password"]</label>
-            <ValidationMessage For="@(() => model.PasswordConfirm)"></ValidationMessage>
+            <ValidationMessage id="password-confirm-validation" For="@(() => model.PasswordConfirm)"></ValidationMessage>
         </div>
         <button type="submit" class="btn btn-blogifier btn-block btn-floating" id="create-admin-account">@_localizer["create-admin-account"]</button>
     </EditForm>
