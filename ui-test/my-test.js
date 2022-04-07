@@ -1,4 +1,4 @@
-import { Selector } from 'testcafe';
+import { ClientFunction, Selector } from 'testcafe';
 
 fixture `Getting Started`
     .page `http://devops.setgo.dk:9876/`;
