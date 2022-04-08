@@ -21,12 +21,18 @@ pipeline {
             }
         }
         stage("Execute UI tests") {
-            parallel {
-                /*stage("Firefox") {
+            stages {
+                stage("Firefox") {
                     steps {
                         sh "docker run --rm -v ${WORKSPACE}/ui-test:/tests -v ${SCREENSHOT_PATH}:/screenshots testcafe/testcafe firefox /tests/*.js"
                     }
-                }*/
+                }
+                stage("Reset for Chrome") {
+                    steps {
+                        sh "docker-compose down"
+                        sh "docker-compose up -d"
+                    }
+                }
                 stage("Chromium") {
                     steps {
                         sh "docker run --rm -v ${WORKSPACE}/ui-test:/tests -v ${WORKSPACE}/${SCREENSHOT_PATH}:/screenshots --env BASE_URL=http://devops.setgo.dk:9876 testcafe/testcafe chromium /tests/*.js"
@@ -35,7 +41,7 @@ pipeline {
             }
             post {
                 always {
-                    archiveArtifacts artifacts: "${SCREENSHOT_PATH}/**"
+                    archiveArtifacts artifacts: "${SCREENSHOT_PATH}/**", allowEmptyArchive: true
                 }
             }
         }
