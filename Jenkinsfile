@@ -22,8 +22,8 @@ pipeline {
         }
         stage("Reset test environment") {
             steps {
-                ResetEnvironment("test1")
-                ResetEnvironment("test2")
+                ResetEnvironment("test1", true)
+                ResetEnvironment("test2", false)
                 // sh "docker-compose --env-file environments/Test1.env down"
                 // sh "docker-compose --env-file environments/Test2.env down"
                 // sh "docker-compose --env-file environments/Test1.env build"
