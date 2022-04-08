@@ -14,12 +14,12 @@ pipeline {
         }
         stage("Reset test environment") {
             steps {
-                sh "docker-compose down --env-file environments/Test1.env"
-                sh "docker-compose down --env-file environments/Test2.env"
-                sh "docker-compose build --env-file environments/Test1.env"
-                sh "docker-compose build --env-file environments/Test2.env"
-                sh "docker-compose up -d --env-file environments/Test1.env"
-                sh "docker-compose up -d --env-file environments/Test2.env"
+                sh "docker-compose --env-file environments/Test1.env down"
+                sh "docker-compose --env-file environments/Test2.env down"
+                sh "docker-compose --env-file environments/Test1.env build"
+                sh "docker-compose --env-file environments/Test2.env build"
+                sh "docker-compose --env-file environments/Test1.env up -d"
+                sh "docker-compose --env-file environments/Test2.env up -d"
                 sh "mkdir -p ${SCREENSHOT_PATH}"
                 sh "chmod a=rwx ${SCREENSHOT_PATH}"
             }
