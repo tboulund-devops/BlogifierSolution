@@ -24,7 +24,7 @@ pipeline {
             stages {
                 stage("Firefox") {
                     steps {
-                        sh "docker run --rm -v ${WORKSPACE}/ui-test:/tests -v ${SCREENSHOT_PATH}:/screenshots testcafe/testcafe firefox /tests/*.js"
+                        sh "docker run --rm -v ${WORKSPACE}/ui-test:/tests -v ${WORKSPACE}/${SCREENSHOT_PATH}:/screenshots --env BASE_URL=http://devops.setgo.dk:9876 testcafe/testcafe firefox /tests/*.js"
                     }
                 }
                 stage("Reset for Chrome") {
