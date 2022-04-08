@@ -18,8 +18,8 @@ pipeline {
                 sh "docker-compose --env-file environments/Test2.env down"
                 sh "docker-compose --env-file environments/Test1.env build"
                 sh "docker-compose --env-file environments/Test2.env build"
-                sh "docker-compose --env-file environments/Test1.env up -d"
-                sh "docker-compose --env-file environments/Test2.env up -d"
+                sh "docker-compose -p test2 --env-file environments/Test1.env up -d"
+                sh "docker-compose -p test1 --env-file environments/Test2.env up -d"
                 sh "mkdir -p ${SCREENSHOT_PATH}"
                 sh "chmod a=rwx ${SCREENSHOT_PATH}"
             }
