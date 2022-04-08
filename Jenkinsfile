@@ -1,9 +1,11 @@
-def ResetEnvironment(name, build) {
-    sh "docker-compose --env-file environments/${name}.env down"
-    if(build) {
-        sh "docker-compose --env-file environments/${name}.env build"
+def ResetEnvironments(envs) {
+    envs.each { e -> 
+        sh "docker-compose --env-file environments/${e}.env down"
     }
-    sh "docker-compose -p ${name} --env-file environments/${name}.env up -d"
+    sh "docker-compose --env-file environments/${name}.env build"
+    envs.each { e -> 
+        sh "docker-compose -p ${e} --env-file environments/${e}.env up -d"
+    }
 }
 
 pipeline {
@@ -22,8 +24,8 @@ pipeline {
         }
         stage("Reset test environment") {
             steps {
-                ResetEnvironment("test1", true)
-                ResetEnvironment("test2", false)
+                ResetEnvironments(["test1", "test2"])
+                //ResetEnvironment("test2", false)
                 // sh "docker-compose --env-file environments/Test1.env down"
                 // sh "docker-compose --env-file environments/Test2.env down"
                 // sh "docker-compose --env-file environments/Test1.env build"
