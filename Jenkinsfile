@@ -15,13 +15,16 @@ pipeline {
         stage("Reset test environment") {
             steps {
                 sh "docker-compose down"
-                sh "docker-compose up -d --build"
+                sh "docker-compose build"
+                sh "docker-compose up -d --env-file environments/Test1.env"
+                sh "docker-compose up -d --env-file environments/Test2.env"
                 sh "mkdir -p ${SCREENSHOT_PATH}"
                 sh "chmod a=rwx ${SCREENSHOT_PATH}"
             }
         }
         stage("Execute UI tests") {
-            stages {
+            // The following uses a synchronous approach resetting the environment in between each run
+            /*stages {
                 stage("Firefox") {
                     steps {
                         sh "docker run --rm -v ${WORKSPACE}/ui-test:/tests -v ${WORKSPACE}/${SCREENSHOT_PATH}:/screenshots --env BASE_URL=http://devops.setgo.dk:9876 testcafe/testcafe firefox /tests/*.js"
@@ -36,6 +39,18 @@ pipeline {
                 stage("Chromium") {
                     steps {
                         sh "docker run --rm -v ${WORKSPACE}/ui-test:/tests -v ${WORKSPACE}/${SCREENSHOT_PATH}:/screenshots --env BASE_URL=http://devops.setgo.dk:9876 testcafe/testcafe chromium /tests/*.js"
+                    }
+                }
+            }*/
+            parallel {
+                stage("Firefox") {
+                    steps {
+                        sh "docker run --rm -v ${WORKSPACE}/ui-test:/tests -v ${WORKSPACE}/${SCREENSHOT_PATH}:/screenshots --env BASE_URL=http://devops.setgo.dk:9876 testcafe/testcafe firefox /tests/*.js"
+                    }
+                }
+                stage("Chromium") {
+                    steps {
+                        sh "docker run --rm -v ${WORKSPACE}/ui-test:/tests -v ${WORKSPACE}/${SCREENSHOT_PATH}:/screenshots --env BASE_URL=http://devops.setgo.dk:9877 testcafe/testcafe chromium /tests/*.js"
                     }
                 }
             }
