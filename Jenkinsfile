@@ -1,3 +1,11 @@
+def ResetEnvironment(name, build) {
+    sh "docker-compose --env-file environments/${name}.env down"
+    if(build) {
+        sh "docker-compose --env-file environments/${name}.env build"
+    }
+    sh "docker-compose -p ${name} --env-file environments/${name}.env up -d"
+}
+
 pipeline {
     agent any
     environment {
@@ -14,12 +22,14 @@ pipeline {
         }
         stage("Reset test environment") {
             steps {
-                sh "docker-compose --env-file environments/Test1.env down"
-                sh "docker-compose --env-file environments/Test2.env down"
-                sh "docker-compose --env-file environments/Test1.env build"
-                sh "docker-compose --env-file environments/Test2.env build"
-                sh "docker-compose -p test2 --env-file environments/Test1.env up -d"
-                sh "docker-compose -p test1 --env-file environments/Test2.env up -d"
+                ResetEnvironment("test1")
+                ResetEnvironment("test2")
+                // sh "docker-compose --env-file environments/Test1.env down"
+                // sh "docker-compose --env-file environments/Test2.env down"
+                // sh "docker-compose --env-file environments/Test1.env build"
+                // sh "docker-compose --env-file environments/Test2.env build"
+                // sh "docker-compose -p test2 --env-file environments/Test1.env up -d"
+                // sh "docker-compose -p test1 --env-file environments/Test2.env up -d"
                 sh "mkdir -p ${SCREENSHOT_PATH}"
                 sh "chmod a=rwx ${SCREENSHOT_PATH}"
             }
@@ -44,7 +54,7 @@ pipeline {
                     }
                 }
             }*/
-            // The following approach 
+            // The following approach will run the tests in parallel but on two different environments
             parallel {
                 stage("Firefox") {
                     steps {
