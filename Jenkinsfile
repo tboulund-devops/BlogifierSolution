@@ -16,7 +16,8 @@ pipeline {
             steps {
                 sh "docker-compose down --env-file environments/Test1.env"
                 sh "docker-compose down --env-file environments/Test2.env"
-                sh "docker-compose build"
+                sh "docker-compose build --env-file environments/Test1.env"
+                sh "docker-compose build --env-file environments/Test2.env"
                 sh "docker-compose up -d --env-file environments/Test1.env"
                 sh "docker-compose up -d --env-file environments/Test2.env"
                 sh "mkdir -p ${SCREENSHOT_PATH}"
