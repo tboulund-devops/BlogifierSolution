@@ -7,7 +7,7 @@ pipeline {
     stages {
         stage("Setup test environment") {
             sh "docker-compose --env-file environments/test-auto.env down"
-            sh "docker-compose --env-file environments/test-auto.env up"
+            sh "docker-compose --env-file environments/test-auto.env up -d"
         }
         stages {
             stage("UI tests - Chrome") {
@@ -18,7 +18,7 @@ pipeline {
             stage("Reset test environment") {
                 steps {
                     sh "docker-compose --env-file environments/test-auto.env down"
-                    sh "docker-compose --env-file environments/test-auto.env up"
+                    sh "docker-compose --env-file environments/test-auto.env up -d"
                 }
             }
             stage("UI tests - Firefox") {
@@ -40,7 +40,7 @@ pipeline {
         stage("Update production") {
             steps {
                 sh "docker-compose --env-file environments/prod.env down"
-                sh "docker-compose --env-file environments/prod.env up"
+                sh "docker-compose --env-file environments/prod.env up -d"
             }
         }
     }
