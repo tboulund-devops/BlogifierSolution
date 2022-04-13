@@ -3,7 +3,12 @@ pipeline {
     triggers {
         upstream(upstreamProjects: 'job1,job2', threshold: hudson.model.Result.SUCCESS)
     }
-    stages("Performance test") {
-        
+    stages {
+        stage("Performance test") {
+            steps {
+                sh "k6 run perf-test/*"
+            }
+        }
     }
+
 }
