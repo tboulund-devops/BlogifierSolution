@@ -15,6 +15,7 @@ pipeline {
         }
         stage("Unit tests") {
             steps {
+                sh "rm -rf /wwwroot/data/1/2020/12/"
                 dir("tests/Blogifier.Tests") {
                     sh "dotnet test"
                 }
