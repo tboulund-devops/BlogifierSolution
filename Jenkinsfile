@@ -9,8 +9,8 @@ pipeline {
             steps {
                 dir("src/Blogifier") {
                     sh "dotnet publish Blogifier.csproj -o ../../outputs"
-                    sh "docker build ."
                 }
+                sh "docker build ."
             }
         }
         stage("Unit tests") {
