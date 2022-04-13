@@ -1,12 +1,46 @@
 pipeline {
     agent any
-    triggers {
-        upstream(upstreamProjects: 'job1,job2', threshold: hudson.model.Result.SUCCESS)
+    environment {
+        TIMESTAMP = sh(script: "date +%s", returnStdout: true).trim()
+        SCREENSHOT_PATH = "screenshots/${TIMESTAMP}"
     }
     stages {
-        stage("Performance test") {
+        stage("Setup test environment") {
+            sh "docker-compose --env-file environments/test-auto.env down"
+            sh "docker-compose --env-file environments/test-auto.env up"
+        }
+        stages {
+            stage("UI tests - Chrome") {
+                steps {
+                    sh "docker run --rm -v ${WORKSPACE}/ui-test:/tests -v ${WORKSPACE}/${SCREENSHOT_PATH}:/screenshots --env BASE_URL=http://devops.setgo.dk:9877 testcafe/testcafe firefox /tests/*.js"
+                }
+            }
+            stage("Reset test environment") {
+                steps {
+                    sh "docker-compose --env-file environments/test-auto.env down"
+                    sh "docker-compose --env-file environments/test-auto.env up"
+                }
+            }
+            stage("UI tests - Firefox") {
+                steps {
+                    sh "docker run --rm -v ${WORKSPACE}/ui-test:/tests -v ${WORKSPACE}/${SCREENSHOT_PATH}:/screenshots --env BASE_URL=http://devops.setgo.dk:9877 testcafe/testcafe chromium /tests/*.js"
+                }
+            }
+            post {
+                always {
+                    archiveArtifacts artifacts: "${SCREENSHOT_PATH}/**", allowEmptyArchive: true
+                }
+            }
+        }
+        stage("Performance tests") {
             steps {
                 sh "k6 run perf-test/*"
+            }
+        }
+        stage("Update production") {
+            steps {
+                sh "docker-compose --env-file environments/prod.env down"
+                sh "docker-compose --env-file environments/prod.env up"
             }
         }
     }

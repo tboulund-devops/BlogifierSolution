@@ -3,5 +3,6 @@ version: "3.9"
 services:
   blogifier:
     build: .
+    image: "localhost:7002/blogifier:${TAG}"
     ports:
       - "${PORT_NUMBER}:80"
