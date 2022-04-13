@@ -11,19 +11,19 @@ pipeline {
                 sh "docker-compose --env-file environments/test-auto.env up -d"
             }
         }
-        stages {
-            stage("UI tests - Chrome") {
+        stage("UI tests") {
+            stage("Chrome") {
                 steps {
                     sh "docker run --rm -v ${WORKSPACE}/ui-test:/tests -v ${WORKSPACE}/${SCREENSHOT_PATH}:/screenshots --env BASE_URL=http://devops.setgo.dk:9877 testcafe/testcafe firefox /tests/*.js"
                 }
             }
-            stage("Reset test environment") {
+            stage("Reset") {
                 steps {
                     sh "docker-compose --env-file environments/test-auto.env down"
                     sh "docker-compose --env-file environments/test-auto.env up -d"
                 }
             }
-            stage("UI tests - Firefox") {
+            stage("Firefox") {
                 steps {
                     sh "docker run --rm -v ${WORKSPACE}/ui-test:/tests -v ${WORKSPACE}/${SCREENSHOT_PATH}:/screenshots --env BASE_URL=http://devops.setgo.dk:9877 testcafe/testcafe chromium /tests/*.js"
                 }
