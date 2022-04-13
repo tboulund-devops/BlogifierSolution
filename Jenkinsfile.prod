@@ -29,10 +29,10 @@ pipeline {
                         sh "docker run --rm -v ${WORKSPACE}/ui-test:/tests -v ${WORKSPACE}/${SCREENSHOT_PATH}:/screenshots --env BASE_URL=http://devops.setgo.dk:9877 testcafe/testcafe chromium /tests/*.js"
                     }
                 }
-                post {
-                    always {
-                        archiveArtifacts artifacts: "${SCREENSHOT_PATH}/**", allowEmptyArchive: true
-                    }
+            }
+            post {
+                always {
+                    archiveArtifacts artifacts: "${SCREENSHOT_PATH}/**", allowEmptyArchive: true
                 }
             }
         }
