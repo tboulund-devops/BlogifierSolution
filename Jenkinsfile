@@ -12,7 +12,7 @@ pipeline {
         stage("Unit tests") {
             steps {
                 sh "rm -rf src/Blogifier/wwwroot/data/1/2020/12/"
-                dir("tests/Blogifier.Tests") {
+                dir("tests/unit/Blogifier.Tests") {
                     sh "dotnet test"
                 }
             }
