@@ -18,8 +18,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\src\Blogifier.Core\Blogifier.Core.csproj" />
-	  <ProjectReference Include="..\..\src\Blogifier.Shared\Blogifier.Shared.csproj" />
+	  <ProjectReference Include="..\..\..\src\Blogifier.Core\Blogifier.Core.csproj" />
+	  <ProjectReference Include="..\..\..\src\Blogifier.Shared\Blogifier.Shared.csproj" />
 	</ItemGroup>
 
 </Project>
