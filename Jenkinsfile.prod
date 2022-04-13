@@ -6,8 +6,10 @@ pipeline {
     }
     stages {
         stage("Setup test environment") {
-            sh "docker-compose --env-file environments/test-auto.env down"
-            sh "docker-compose --env-file environments/test-auto.env up -d"
+            steps {
+                sh "docker-compose --env-file environments/test-auto.env down"
+                sh "docker-compose --env-file environments/test-auto.env up -d"
+            }
         }
         stages {
             stage("UI tests - Chrome") {

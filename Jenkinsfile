@@ -1,9 +1,5 @@
 pipeline {
     agent any
-    environment {
-        TIMESTAMP = sh(script: "date +%s", returnStdout: true).trim()
-        SCREENSHOT_PATH = "screenshots/${TIMESTAMP}"
-    }
     stages {
         stage("Build") {
             steps {
