@@ -29,7 +29,7 @@ pipeline {
         }
         stage("Deliver to registry") {
             steps {
-                sh "docker-compose push blogifier"
+                sh "docker-compose --env-file environments/prod.env push blogifier"
             }
         }
         stage("Release to production") {
