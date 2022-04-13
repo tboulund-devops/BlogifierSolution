@@ -12,25 +12,27 @@ pipeline {
             }
         }
         stage("UI tests") {
-            stage("Chrome") {
-                steps {
-                    sh "docker run --rm -v ${WORKSPACE}/ui-test:/tests -v ${WORKSPACE}/${SCREENSHOT_PATH}:/screenshots --env BASE_URL=http://devops.setgo.dk:9877 testcafe/testcafe firefox /tests/*.js"
+            stages {
+                stage("Chrome") {
+                    steps {
+                        sh "docker run --rm -v ${WORKSPACE}/ui-test:/tests -v ${WORKSPACE}/${SCREENSHOT_PATH}:/screenshots --env BASE_URL=http://devops.setgo.dk:9877 testcafe/testcafe firefox /tests/*.js"
+                    }
                 }
-            }
-            stage("Reset") {
-                steps {
-                    sh "docker-compose --env-file environments/test-auto.env down"
-                    sh "docker-compose --env-file environments/test-auto.env up -d"
+                stage("Reset") {
+                    steps {
+                        sh "docker-compose --env-file environments/test-auto.env down"
+                        sh "docker-compose --env-file environments/test-auto.env up -d"
+                    }
                 }
-            }
-            stage("Firefox") {
-                steps {
-                    sh "docker run --rm -v ${WORKSPACE}/ui-test:/tests -v ${WORKSPACE}/${SCREENSHOT_PATH}:/screenshots --env BASE_URL=http://devops.setgo.dk:9877 testcafe/testcafe chromium /tests/*.js"
+                stage("Firefox") {
+                    steps {
+                        sh "docker run --rm -v ${WORKSPACE}/ui-test:/tests -v ${WORKSPACE}/${SCREENSHOT_PATH}:/screenshots --env BASE_URL=http://devops.setgo.dk:9877 testcafe/testcafe chromium /tests/*.js"
+                    }
                 }
-            }
-            post {
-                always {
-                    archiveArtifacts artifacts: "${SCREENSHOT_PATH}/**", allowEmptyArchive: true
+                post {
+                    always {
+                        archiveArtifacts artifacts: "${SCREENSHOT_PATH}/**", allowEmptyArchive: true
+                    }
                 }
             }
         }
