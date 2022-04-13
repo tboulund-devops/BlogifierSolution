@@ -63,5 +63,10 @@ pipeline {
                 }
             }
         }
+        stage("Release to production") {
+            steps {
+                build job: "Blogifier-Production", wait: false
+            }
+        }
     }
 }
