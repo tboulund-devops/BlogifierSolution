@@ -18,7 +18,7 @@ pipeline {
             stages {
                 stage("Chrome") {
                     steps {
-                        sh "docker run --rm -v ${WORKSPACE}/ui-test:/tests -v ${WORKSPACE}/${SCREENSHOT_PATH}:/screenshots --env BASE_URL=http://devops.setgo.dk:9877 testcafe/testcafe firefox /tests/ui/*.js"
+                        sh "docker run --rm -v ${WORKSPACE}/tests/ui:/tests -v ${WORKSPACE}/${SCREENSHOT_PATH}:/screenshots --env BASE_URL=http://devops.setgo.dk:9877 testcafe/testcafe firefox /tests/*.js"
                     }
                 }
                 stage("Reset") {
@@ -29,7 +29,7 @@ pipeline {
                 }
                 stage("Firefox") {
                     steps {
-                        sh "docker run --rm -v ${WORKSPACE}/ui-test:/tests -v ${WORKSPACE}/${SCREENSHOT_PATH}:/screenshots --env BASE_URL=http://devops.setgo.dk:9877 testcafe/testcafe chromium /tests/ui/*.js"
+                        sh "docker run --rm -v ${WORKSPACE}/tests/ui:/tests -v ${WORKSPACE}/${SCREENSHOT_PATH}:/screenshots --env BASE_URL=http://devops.setgo.dk:9877 testcafe/testcafe chromium /tests/*.js"
                     }
                 }
             }
@@ -41,7 +41,7 @@ pipeline {
         }
         stage("Performance tests") {
             steps {
-                sh "k6 run tests/perf/*"
+                sh "k6 run tests/perf/load-test.js"
             }
         }
         stage("Update production") {

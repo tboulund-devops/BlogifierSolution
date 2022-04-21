@@ -1,0 +1,16 @@
+pipeline {
+    agent any
+    stages {
+        stage("Setup test environment") {
+            steps {
+                sh "docker-compose --env-file environments/test-stess.env down"
+                sh "docker-compose --env-file environments/test-stress.env up -d"
+            }
+        }
+        stage("Performance tests") {
+            steps {
+                sh "k6 run -e BASE_URL=http://localhost:9888 tests/perf/stress-test.js"
+            }
+        }
+    }
+}
