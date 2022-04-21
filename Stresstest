@@ -4,15 +4,9 @@ pipeline {
         cron("0 0 * * *")
     }
     stages {
-        stage("Setup test environment") {
-            steps {
-                sh "docker-compose --env-file environments/test-stress.env down"
-                sh "docker-compose --env-file environments/test-stress.env up --no-build -d"
-            }
-        }
         stage("Performance tests") {
             steps {
-                sh "k6 run -e BASE_URL=http://localhost:9888 tests/perf/stress-test.js"
+                sh "k6 run -e BASE_URL=http://localhost:9876 tests/perf/stress-test.js"
             }
         }
     }
