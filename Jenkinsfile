@@ -9,14 +9,6 @@ pipeline {
                 sh "docker build ."
             }
         }
-        stage("Unit tests") {
-            steps {
-                sh "rm -rf src/Blogifier/wwwroot/data/1/2020/12/"
-                dir("tests/unit/Blogifier.Tests") {
-                    sh "dotnet test"
-                }
-            }
-        }
         stage("Setup manual test env") {
             steps {
                 sh "docker-compose --env-file environments/test-manual.env down"
