@@ -22,7 +22,7 @@ pipeline {
         }
         stage("Release to production") {
             steps {
-                build job: "Blogifier-Production", wait: false, parameters: [
+                build job: "Blogifier/02 - Deploy to production", wait: false, parameters: [
                     string(name: "TAG_NUMBER", value: env.BUILD_NUMBER)
                 ]
             }

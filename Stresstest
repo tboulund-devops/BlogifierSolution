@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage("Performance tests") {
             steps {
-                sh "k6 run -e BASE_URL=http://localhost:9876 tests/perf/stress-test.js"
+                sh "k6 run -e BASE_URL=http://localhost:9877 tests/perf/stress-test.js"
             }
         }
     }

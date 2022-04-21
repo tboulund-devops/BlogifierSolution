@@ -41,7 +41,7 @@ pipeline {
         }
         stage("Performance tests") {
             steps {
-                sh "k6 run -e BASE_URL=http://localhost:9876 tests/perf/load-test.js"
+                sh "k6 run -e BASE_URL=http://localhost:9877 tests/perf/load-test.js"
             }
         }
         stage("Update production") {
