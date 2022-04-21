@@ -7,6 +7,7 @@ pipeline {
         stage("Setup test environment") {
             steps {
                 sh "docker-compose --env-file environments/test-stress.env down"
+                sh "docker-compose --env-file environments/test-stress.env pull"
                 sh "docker-compose --env-file environments/test-stress.env up -d"
             }
         }
